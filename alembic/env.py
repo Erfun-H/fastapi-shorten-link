@@ -7,6 +7,8 @@ from alembic import context
 
 from src.core.database import Base, db_dsn
 
+from src.shortener import models as shortener_models
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
