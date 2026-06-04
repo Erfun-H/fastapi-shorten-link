@@ -10,6 +10,7 @@ from .services import ShortLinkService
 from .exceptions import CodeExistsError, RedirectError
 
 from src.core.database import get_db
+from src.core.generic_response import success_response
 
 shortener_router = APIRouter()
 
@@ -30,7 +31,7 @@ async def shorten_link(
     short_url = str(
         request.url_for("redirect_to_original_link", code=short_link_obj.code)
     )
-    return ShortenLinkRespone(short_url=short_url, code=short_link_obj.code)
+    return success_response(data=ShortenLinkRespone(short_url=short_url, code=short_link_obj.code))
 
 
 @shortener_router.get("/s/{code}")

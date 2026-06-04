@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 
 from src.shortener.routers import shortener_router
+from src.core.generic_response import error_response
 
 import os
 
@@ -25,7 +26,5 @@ async def request_validation_handler(request: Request, exc: RequestValidationErr
 
     return JSONResponse(
         status_code=400,
-        content={
-            "errors": errors
-        }
+        content=error_response(400, message="Bad Request", details=errors)
     )
