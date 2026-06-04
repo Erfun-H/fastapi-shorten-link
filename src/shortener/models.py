@@ -10,7 +10,7 @@ class ShortLink(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     original_link = Column(String(500))
-    code = Column(String(6), unique=True, index=True)
+    code = Column(String(25), unique=True, index=True)
     is_active = Column(Boolean, default=True)
 
     visitor_count = Column(Integer, default=0)
