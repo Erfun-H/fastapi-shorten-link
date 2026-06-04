@@ -13,5 +13,7 @@ class ShortLink(Base):
     code = Column(String(6), unique=True, index=True)
     is_active = Column(Boolean, default=True)
 
+    visitor_count = Column(Integer, default=0)
+
     created = Column(DateTime, server_default=func.now())
     expired_at = Column(DateTime, default=func.now() + timedelta(days=7))
