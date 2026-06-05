@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from fastapi.requests import Request
 from fastapi.responses import RedirectResponse
 
@@ -11,6 +11,7 @@ from .exceptions import CodeExistsError, RedirectError
 
 from src.core.database import get_db
 from src.core.generic_response import success_response
+from src.core.exceptions import CustomHTTPException
 
 shortener_router = APIRouter()
 
@@ -26,7 +27,7 @@ async def shorten_link(
             **request_body.model_dump()
         )
     except CodeExistsError as e:
-        raise HTTPException(400, str(e))
+        raise CustomHTTPException(400, str(e))
 
     short_url = str(
         request.url_for("redirect_to_original_link", code=short_link_obj.code)
@@ -45,6 +46,6 @@ async def redirect_to_original_link(code: str, db: Session = Depends(get_db)):
             short_link_obj.code, visitor_count=short_link_obj.visitor_count
         )
     except RedirectError as e:
-        raise HTTPException(404, str(e))
+        raise CustomHTTPException(404, str(e))
 
     return RedirectResponse(short_link_obj.original_link)
